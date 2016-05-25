@@ -1,0 +1,22 @@
+
+<div class="container" style="margin: 100px auto; width: 600px;">
+    <div class="row vertical-center-row" id="progress-container"></div>
+</div>
+
+
+<script>
+    var item = new ProgressItem();
+    var bar  = new ProgressBar([item], {el: $('#progress-container')});
+
+    var conn = new ab.Session('ws://localhost:8080',
+        function() {
+            conn.subscribe('channel', function(topic, data) {
+                item.set('value', data);
+            });
+        },
+        function() {
+            alert('push-serverWebSocket connection closed');
+        },
+        {'skipSubprotocolCheck': true}
+    );
+</script>
